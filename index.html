@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes</title>
+    <style>
+            *{
+        margin: 0;
+        padding: 0;
+        }
+        body{
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100vw;
+            height: 100vh;
+        }
+        .container{
+            background-color: rgb(214, 214, 223);
+            /* background: rgb(86,85,148);
+background: linear-gradient(261deg, rgba(86,85,148,1) 0%, rgba(63,88,150,1) 41%, rgba(0,228,255,1) 100%); */
+            width: 50vw;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            border-radius: 11px;
+            /* box-shadow: 5px 10px 8px 10px #302f2f; */
+        }
+        #newQ{
+            width: 100%;
+            height: 15%;
+            cursor: pointer;
+            /* border-radius: 10px; */
+            border: none;
+            background-color: rgb(34, 34, 37);
+            color: rgb(253, 253, 253);
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: cursive;
+            position: absolute;
+            bottom: 0;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        #quotes{
+            color: rgb(13, 13, 14);
+            /* font-size: 2rem; */
+            font-size: 3rem;
+            font-weight: bold;
+            /* font-family: 'Times New Roman', Times, serif; */
+            /* font-family: "Great Vibes", cursive; */
+            font-family: 'Rouge Script', cursive;
+            position: absolute;
+            top: 10vh;
+            font-weight: normal; 
+            line-height: 48px;
+            margin: 0 0 50px;
+            text-align: center;
+            text-shadow: 1px 1px 2px #082b34;
+        }
+        #author{
+            color: rgb(13, 13, 14);
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: cursive;
+            position: absolute;
+            right: 10px;
+            bottom: 20vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="quotes"></div>
+        <div id="author"></div>
+        <button id="newQ">New Quotes</button>
+    </div>
+    
+    <script>
+        let realData="";
+        let quotesData ="";
+        const quotes = document.getElementById("quotes");
+        const author = document.getElementById("author");
+        const newQ = document.getElementById("newQ");
+        const getNewQuotes = ()=>{
+            let rnum=Math.floor(Math.random()*20);
+            quotesData=realData[rnum];
+            quotes.innerText=`"${quotesData.text}"`;
+            quotesData.author==null?(author.innerText="unKnown"):
+            (author.innerText=`~By ${quotesData.author}`);
+        }
+        const getQuotes = async () =>{
+            const api = "https://type.fit/api/quotes";
+            try {
+                let data = await fetch(api);
+                realData = await data.json();
+                getNewQuotes();
+            } catch (error) {
+                
+            }
+        };
+        newQ.addEventListener('click',getNewQuotes);
+        getQuotes();
+    </script>
+</body>
+</html>
